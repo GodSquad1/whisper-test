@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <button id="recordBtn">Start Recording</button>
+
+  <script>
+    let recorder, audioChunks = [];
+    const recordBtn = document.getElementById('recordBtn');
+
+    recordBtn.addEventListener('click', async () => {
+      if (!recorder || recorder.state === "inactive") {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream); // WebM recording
+        recorder.ondataavailable = e => audioChunks.push(e.data);
+        recorder.onstop = sendAudio;
+        recorder.start();
+        recordBtn.textContent = "Stop Recording";
+      } else {
+        recorder.stop();
+        recordBtn.textContent = "Start Recording";
+      }
+    });
+
+    async function sendAudio() {
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      audioChunks = [];
+      const formData = new FormData();
+      formData.append('file', blob, 'speech.webm');
+
+      try {
+        const res = await fetch('/transcribe', { method: 'POST', body: formData });
+        const data = await res.json();
+        console.log("Whisper Transcription:", data.transcription);
+        alert("Transcription: " + data.transcription);
+      } catch (err) {
+        console.error("Error transcribing audio:", err);
+      }
+    }
+  </script>
+</body>
+</html>
