@@ -1,20 +1,85 @@
 {
-  "name": "whisper-test",
+  "name": "whisper-transcription-server",
   "version": "1.0.0",
+  "description": "A Node.js server for audio transcription using OpenAI Whisper API, supporting file uploads and WebM→WAV conversion",
   "main": "backend.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend.js"
+    "start": "node backend.js",
+    "dev": "nodemon backend.js",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write '**/*.{js,json,md}'",
+    "test": "jest --coverage",
+    "build": "echo 'No build step required for this server'",
+    "clean": "rm -rf uploads/*"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/whisper-transcription-server.git"
+  },
+  "keywords": [
+    "whisper",
+    "transcription",
+    "audio",
+    "ffmpeg",
+    "express",
+    "nodejs",
+    "multer",
+    "OpenAI"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/whisper-transcription-server/issues"
+  },
+  "homepage": "https://github.com/yourusername/whisper-transcription-server#readme",
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "form-data": "^4.0.4",
     "multer": "^2.0.2",
     "node-fetch": "^3.3.2"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "eslint": "^9.19.0",
+    "prettier": "^3.3.0",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es2021": true,
+      "jest": true
+    },
+    "extends": ["eslint:recommended"],
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module"
+    },
+    "rules": {
+      "semi": ["error", "always"],
+      "quotes": ["error", "double"]
+    }
+  },
+  "prettier": {
+    "singleQuote": false,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": true
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": ["**/*.js"]
+  },
+  "files": [
+    "backend.js",
+    "frontend.html",
+    "uploads/"
+  ]
 }
